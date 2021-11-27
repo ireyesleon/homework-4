@@ -1,0 +1,1 @@
+// clic event to move to the first question
