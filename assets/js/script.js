@@ -21,7 +21,7 @@ var myQuestions = [
 			'Berlin',
 			'Frankfurt'
 		],
-		correctAnswer: 'b'
+		correctAnswer: 'Berlin'
 	},
 	{
 		question: "What is the capital of Spain",
@@ -30,7 +30,7 @@ var myQuestions = [
 			'Ibiza',
 			'Madrid'
 		],
-		correctAnswer: 'c'
+		correctAnswer: 'Madrid'
 	},
   {
 		question: "What is capital of Poland?",
@@ -39,7 +39,7 @@ var myQuestions = [
 			'Warzaw',
 			'Lublin'
 		],
-		correctAnswer: 'b'
+		correctAnswer: 'Warzaw'
 	},
   {
 		question: "What is the capital of Iceland?",
@@ -48,7 +48,7 @@ var myQuestions = [
 			'Kópavogur',
 			'Hafnarfjörður'
 		],
-		correctAnswer: 'a'
+		correctAnswer: 'Reykjavík'
 		},
   {
 		question: "What is the capital of Latvia?",
@@ -87,8 +87,6 @@ function sendMessage() {
 	})
   };
 
-  
-  // setTime();
 
 //function to move to the first question
 function startQuestions() {
@@ -103,17 +101,18 @@ function startQuestions() {
 	})
 }
 
-function pressBtn() {
-	if (this.value !== myQuestions[currentQuestionIndex].answers) {
+function pressBtn(event) {
+	var presionado = event.target.innerText;
+	
+	if (presionado !== myQuestions[currentQuestionIndex].correctAnswer) {
 		secondsLeft -= 5;
 		if (secondsLeft < 0) {
 			secondsLeft = 0
 		}
 		timerInterval.textContent = secondsLeft;
-	} 
+	} else score += 1;
 
 	currentQuestionIndex++
-	score += 1; // make it show in the html
 
 	if (currentQuestionIndex === myQuestions.length) {
 		endGame(); 
@@ -122,27 +121,22 @@ function pressBtn() {
 	}
 }
 
-//end game function **this is important
 function endGame() {
 	questions.textContent = "You got " + score + " out of 5";
 	answersContainer.innerHTML = "Enter your initials";
 	var setInitials = document.createElement("input");
+
 		answersContainer.appendChild(setInitials);
 	var submitBtn = document.createElement("button");
 		submitBtn.textContent = "Submit!";
 		submitBtn.setAttribute("class", "submit-button")
 		answersContainer.appendChild(submitBtn);
 		clearInterval(timerInterval);
-		// submitBtn.addEventListener("click", function() {
-		// 	localStorage.setItem("Initials", initials);
-		// 	localStorage.setItem("Score", score);
-		// })
+		submitBtn.addEventListener("click", function() {
+			localStorage.setItem("Initials", setInitials.value);
+			localStorage.setItem("Score", score);
+		})
 }
-//save highscores with local storage
-
-// submitBtn.addEventListener("click", function() {
-// 	localStorage.setItem("Initials", initials);
-// })
 
 startBtn.addEventListener("click", function() {
 	setTime();
