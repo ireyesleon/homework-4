@@ -4,12 +4,10 @@ var answersContainer = document.querySelector(".answers-container");
 var timeEl = document.querySelector(".time");
 var mainEl = document.getElementById("main");
 var startBtn = document.getElementById("start-button");
-var submitBtn = document.getElementById("submit-button")
 var secondsLeft = 75;
 var timerInterval;
 var initials = document.getElementById("input")
 var startPage = document.getElementById("start-page");
-
 var currentQuestionIndex = 0;
 var score = 0;
 
@@ -69,23 +67,11 @@ function setTime() {
   
       if(secondsLeft === 0) {
         clearInterval(timerInterval);
-        sendMessage();
+        endGame();
       }
   
     }, 1000);
 };
-
-function sendMessage() {
-    timeEl.textContent = "Time remaining: 0";
-	questions.textContent = "Game Over! Enter your initials below";
-	answers.textContent = "";
-	start.textContent = "Try again";
-	var initials = document.createElement("input");
-	answers.appendChild(initials);
-	start.addEventListener("click", function tryAgain(){
-		window.location.reload();
-	})
-  };
 
 
 //function to move to the first question
@@ -125,12 +111,14 @@ function endGame() {
 	questions.textContent = "You got " + score + " out of 5";
 	answersContainer.innerHTML = "Enter your initials";
 	var setInitials = document.createElement("input");
-
 		answersContainer.appendChild(setInitials);
 	var submitBtn = document.createElement("button");
 		submitBtn.textContent = "Submit!";
-		submitBtn.setAttribute("class", "submit-button")
 		answersContainer.appendChild(submitBtn);
+	var viewHighscores = document.createElement("a");
+		viewHighscores.textContent = "View Highscores";
+		viewHighscores.setAttribute("href", "highscores.html");
+		answersContainer.appendChild(viewHighscores);
 		clearInterval(timerInterval);
 		submitBtn.addEventListener("click", function() {
 			localStorage.setItem("Initials", setInitials.value);
